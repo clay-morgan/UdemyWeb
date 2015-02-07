@@ -1,0 +1,15 @@
+To configure the JNDI datasource, this must appear in tomcat's context.xml
+
+
+	<Resource name="jdbc/udemy"
+      auth="Container"
+      type="javax.sql.DataSource"
+      driverClassName="com.mysql.jdbc.Driver"
+      url="jdbc:mysql://localhost:3306/udemy"
+      username="root"
+      password="password"
+
+      maxActive="100"
+      maxIdle="30"
+      minIdle="5"
+      maxWait="10000"/>
