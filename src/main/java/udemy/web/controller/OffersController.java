@@ -1,24 +1,47 @@
 package udemy.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import udemy.web.data.Offer;
+import udemy.web.service.OfferService;
+
+import java.util.List;
 
 @Controller
 public class OffersController
 {
+    private OfferService offerService;
 
-    @RequestMapping( "/" )
-    public String showHome( Model model )
+    @Autowired
+    public void setOfferService( OfferService offerService )
     {
-        return getString( model );
+        this.offerService = offerService;
     }
 
-    public String getString( Model model )
+    @RequestMapping( "/offers" )
+    public String showOffers( Model model )
     {
-        model.addAttribute( "name", "<b>Raphael</b>" );
-        model.asMap().get( "getOfferName" );
+        List<Offer> offers = offerService.getCurrentList();
+        model.addAttribute( "offers", offers );
+
+        return "offers";
+    }
+
+    @RequestMapping( "/createOffer" )
+    public String showCreateOffer( Model model )
+    {
+        return "createOffer";
+    }
+
+    @RequestMapping( method = RequestMethod.GET, value = "/testUrlParameter" )
+    public String showTest( Model model, @RequestParam( "id" ) String idFromParameter )
+    {
+        System.out.println( "Id came in as " + idFromParameter );
 
         return "home";
     }
@@ -30,15 +53,5 @@ public class OffersController
     {
         return "<b>Leonardo</b>";
     }
-
-//    @RequestMapping( "/" )
-//    public ModelAndView showHome()
-//    {
-//        ModelAndView mv = new ModelAndView( "home" );
-//        Map<String, Object> model = mv.getModel();
-//        model.put( "name", "Raphael" );
-//
-//        return mv;
-//    }
 
 }
